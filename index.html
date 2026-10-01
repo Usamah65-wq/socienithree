@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XII-F6 Class Website</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Poppins:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    width: 100%; min-height: 100vh;
+    overflow-x: hidden; overflow-y: auto;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0a1929;
+}
+
+body::-webkit-scrollbar { width: 10px; }
+body::-webkit-scrollbar-track { background: #05111e; }
+body::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #4a7ba7, #2c4a6b);
+    border-radius: 5px;
+}
+
+#welcome-screen {
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+    z-index: 100; cursor: pointer;
+    transition: opacity 1.2s ease-out;
+    user-select: none; padding: 20px;
+    background-image: url('https://i.postimg.cc/4yCpcWPx/Screenshot-2026-09-29-09-48-25-48-1c337646f29875672b5a61192b9010f9.jpg');
+    background-size: cover; background-position: center; background-repeat: no-repeat;
+}
+
+#welcome-screen::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(0,0,0,0.55), rgba(0,0,0,0.7));
+    z-index: 1;
+}
+
+#welcome-box {
+    position: relative; z-index: 2;
+    padding: 30px 50px;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 0 30px rgba(255,255,255,0.1);
+    animation: zoomIn 1s ease-out;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    width: fit-content; max-width: 90%;
+}
+
+#welcome-text {
+    font-size: 2.8rem; font-weight: 900; color: #ffffff;
+    text-shadow: 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(255,255,255,0.3), 0 4px 12px rgba(0,0,0,0.7);
+    letter-spacing: 5px;
+    animation: glow 2s ease-in-out infinite alternate;
+    text-align: center;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(255,255,255,0.3), 0 4px 12px rgba(0,0,0,0.7); }
+    to { text-shadow: 0 0 30px rgba(255,255,255,0.9), 0 0 60px rgba(255,255,255,0.6), 0 0 80px rgba(255,255,255,0.8), 0 4px 12px rgba(0,0,0,0.7); }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+#main-content {
+    display: none; opacity: 0;
+    transition: opacity 1.2s ease-in;
+    width: 100%; min-height: 100vh;
+    position: relative; background: #0a1929;
+}
+
+#main-content.show { display: block; opacity: 1; }
+
+#main-content > * { position: relative; z-index: 2; }
+
+#page-1 {
+    width: 100%; display: flex; flex-direction: column;
+    align-items: center; gap: 70px; padding: 25px 20px 0;
+    min-height: 100vh;
+}
+
+#slider {
+    width: 90%; max-width: 900px; height: 180px;
+    overflow: hidden; position: relative;
+    background: #f0f0f5; border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    flex-shrink: 0; touch-action: pan-y;
+    user-select: none; -webkit-user-select: none;
+}
+
+#slider-track {
+    display: flex; height: 100%;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    cursor: grab;
+}
+
+#slider-track:active { cursor: grabbing; }
+
+#slider-track img {
+    height: 100%; width: 100%; flex: 0 0 100%;
+    object-fit: cover; object-position: center 30%;
+    display: block; flex-shrink: 0;
+    user-select: none; -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+#slider-dots {
+    position: absolute; bottom: 12px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 8px; z-index: 5;
+}
+
+.dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+    border: 2px solid rgba(255,255,255,0.9);
+    cursor: pointer; transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.dot.active {
+    background: #4a7ba7; border-color: #ffffff;
+    width: 22px; border-radius: 5px;
+}
+
+#info-section {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 25px; padding: 0 20px; flex-shrink: 0;
+    text-align: center; width: 100%; max-width: 900px;
+}
+
+#instagram-logo {
+    width: 65px; height: 65px; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    background: #2a2a2a;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6), 0 0 20px rgba(255,255,255,0.05);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    text-decoration: none; flex-shrink: 0;
+    animation: floatLogo 3s ease-in-out infinite;
+}
+
+@keyframes floatLogo {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+#instagram-logo:hover {
+    transform: translateY(-5px) scale(1.08);
+    background: #3a3a3a;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 25px rgba(255,255,255,0.15);
+}
+
+#instagram-logo svg {
+    width: 32px; height: 32px; fill: #e8e8e8;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+    transition: fill 0.3s ease;
+}
+
+#instagram-logo:hover svg { fill: #ffffff; }
+
+#about-box {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1.5px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 30px 25px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 0 30px rgba(255,255,255,0.05);
+    width: 100%; max-width: 700px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 25px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+#about-box:hover {
+    box-shadow: 0 12px 45px rgba(0,0,0,0.6), 0 0 25px rgba(255,255,255,0.08), inset 0 0 35px rgba(255,255,255,0.08);
+    transform: translateY(-3px);
+}
+
+#about-box h1 {
+    font-size: 1.8rem; font-weight: 800; color: #ffffff;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.8), 0 0 30px rgba(255,255,255,0.2);
+    margin: 0;
+}
+
+#about-box .elegant-text {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.15rem; font-weight: 700; font-style: italic;
+    color: #f0f0f0; line-height: 1.65;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 20px rgba(255,255,255,0.08);
+    margin: 0; max-width: 700px; letter-spacing: 0.4px;
+}
+
+#about-box .footer {
+    font-size: 0.8rem; color: rgba(255,255,255,0.6);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+.divider-line {
+    width: 88%; max-width: 800px; height: 2.5px;
+    background: linear-gradient(to right, transparent, #ffffff 15%, #ffffff 85%, transparent);
+    margin: 0 auto; border-radius: 2px; opacity: 0.85;
+}
+
+#class-structure {
+    width: 90%; max-width: 900px; flex-shrink: 0;
+    padding: 0; margin-bottom: 0;
+    display: flex; flex-direction: column; align-items: center;
+}
+
+#class-structure h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.4rem; font-weight: 700; font-style: italic;
+    color: #ffffff; text-align: center; margin-bottom: 30px;
+    letter-spacing: 3px;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.9), 0 0 25px rgba(255,255,255,0.15);
+}
+
+.structure-tree {
+    position: relative; display: flex; flex-direction: column;
+    align-items: center; width: 100%; max-width: 800px;
+    --line-color: #ffffff;
+}
+
+.tree-wali {
+    display: flex; flex-direction: column; align-items: center;
+    position: relative; z-index: 3;
+}
+
+.tree-wali::after {
+    content: ''; position: absolute; bottom: -40px; left: 50%;
+    transform: translateX(-50%);
+    width: 2px; height: 40px;
+    background: var(--line-color); opacity: 0.85; z-index: 1;
+}
+
+.tree-columns-wrapper {
+    position: relative; display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 100px; width: 100%; max-width: 780px;
+    margin-top: 40px; padding: 0;
+}
+
+.tree-columns-wrapper::before {
+    content: ''; position: absolute;
+    top: -40px; bottom: -40px; left: 50%;
+    transform: translateX(-50%);
+    width: 2px; background: var(--line-color);
+    opacity: 0.85; z-index: 1;
+}
+
+.tree-column {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 80px; position: relative; z-index: 2; width: 100%;
+}
+
+.tree-column-item {
+    display: flex; flex-direction: column; align-items: center;
+    position: relative; z-index: 2; width: 100%;
+}
+
+.tree-column-left .tree-column-item::before {
+    content: ''; position: absolute; top: 35px; left: 100%;
+    width: 50px; height: 2px;
+    background: var(--line-color); opacity: 0.85; z-index: 1;
+}
+
+.tree-column-right .tree-column-item::before {
+    content: ''; position: absolute; top: 35px; right: 100%;
+    width: 50px; height: 2px;
+    background: var(--line-color); opacity: 0.85; z-index: 1;
+}
+
+.tree-students {
+    display: flex; flex-direction: column; align-items: center;
+    position: relative; margin-top: 40px; margin-bottom: 80px; z-index: 3;
+}
+
+.tree-students::before {
+    content: ''; position: absolute; top: -40px; left: 50%;
+    transform: translateX(-50%);
+    width: 2px; height: 40px;
+    background: var(--line-color); opacity: 0.85; z-index: 1;
+}
+
+.member-card {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 8px; padding: 15px 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative; z-index: 2;
+    width: 160px; min-height: 175px;
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.45), inset 0 0 20px rgba(255,255,255,0.04);
+}
+
+.member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.6), 0 0 25px rgba(255,255,255,0.1), inset 0 0 25px rgba(255,255,255,0.08);
+}
+
+.member-photo {
+    width: 70px; height: 70px; border-radius: 50%;
+    background: rgba(40,40,40,0.6);
+    border: 2px solid rgba(255,255,255,0.35);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 15px rgba(255,255,255,0.08);
+    display: flex; justify-content: center; align-items: center;
+    overflow: hidden; flex-shrink: 0; position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.member-photo:hover {
+    transform: scale(1.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 35px rgba(255,255,255,0.25);
+}
+
+.member-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    border-radius: 50%; display: block;
+}
+
+.member-photo .placeholder {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.55rem; font-weight: 700;
+    letter-spacing: 1px; text-align: center;
+    text-transform: uppercase;
+}
+
+.member-role {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 0.8rem; font-weight: 700; color: #ffffff;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 0 15px rgba(255,255,255,0.15);
+    padding: 4px 14px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: inset 0 0 15px rgba(255,255,255,0.08);
+    white-space: nowrap;
+}
+
+.member-name {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.68rem; font-weight: 700;
+    color: #ffffff; text-align: center;
+    letter-spacing: 0.4px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    padding: 6px 14px; border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.04);
+    max-width: 140px; width: 140px; min-height: 48px;
+    line-height: 1.3; word-break: break-word;
+    display: flex; justify-content: center; align-items: center;
+    box-sizing: border-box;
+}
+
+.tree-wali .member-photo {
+    width: 90px; height: 90px;
+    border: 3px solid rgba(255,255,255,0.4);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.7), 0 0 30px rgba(255,255,255,0.15);
+}
+
+.tree-wali .member-role {
+    font-size: 0.9rem; padding: 5px 18px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.tree-wali .member-name {
+    font-size: 0.78rem; padding: 7px 18px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    max-width: 220px; width: auto;
+}
+
+.tree-wali .member-card {
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.09);
+    border: 1.5px solid rgba(255,255,255,0.25);
+}
+
+.tree-students .member-role {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1rem; padding: 10px 30px;
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.3);
+}
+
+#stats-box {
+    width: 100%;
+    background-image: url('https://i.postimg.cc/4yCpcWPx/Screenshot-2026-09-29-09-48-25-48-1c337646f29875672b5a61192b9010f9.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: local;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 20px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.5);
+    margin-top: 0;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+}
+
+#stats-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    pointer-events: none;
+}
+
+#stats-box .stats-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+#stats-box .stat-item { position: relative; z-index: 2; }
+
+.stat-item {
+    flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 0 10px;
+    position: relative; max-width: 300px;
+}
+
+.stat-number {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.8rem; font-weight: 800; font-style: italic;
+    color: #d8d8d8; letter-spacing: 2px; line-height: 1;
+    margin-bottom: 3px;
+    text-shadow: 0 0 4px rgba(255,255,255,0.6), 0 0 8px rgba(255,255,255,0.45), 0 0 15px rgba(255,255,255,0.3), 0 0 25px rgba(255,255,255,0.2), 0 0 40px rgba(255,255,255,0.1);
+    animation: neonPulse 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes neonPulse {
+    from { text-shadow: 0 0 4px rgba(255,255,255,0.6), 0 0 8px rgba(255,255,255,0.45), 0 0 15px rgba(255,255,255,0.3), 0 0 25px rgba(255,255,255,0.2), 0 0 40px rgba(255,255,255,0.1); }
+    to { text-shadow: 0 0 6px rgba(255,255,255,0.75), 0 0 12px rgba(255,255,255,0.55), 0 0 22px rgba(255,255,255,0.4), 0 0 35px rgba(255,255,255,0.25), 0 0 55px rgba(255,255,255,0.15); }
+}
+
+.stat-label {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 0.7rem; font-weight: 700; color: #c8c8c8;
+    letter-spacing: 3px; text-transform: uppercase;
+    text-shadow: 0 0 3px rgba(255,255,255,0.5), 0 0 6px rgba(255,255,255,0.3);
+}
+
+.stat-item:not(:last-child)::after {
+    content: ''; position: absolute; right: 0;
+    top: 20%; height: 60%; width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2), transparent);
+}
+
+#stats-box .stats-title {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    font-style: italic;
+    color: #ffffff;
+    letter-spacing: 4px;
+    text-align: center;
+    text-shadow:
+        0 0 8px rgba(255, 255, 255, 0.7),
+        0 0 16px rgba(255, 255, 255, 0.5),
+        0 0 30px rgba(255, 255, 255, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.9);
+    z-index: 3;
+    pointer-events: none;
+    white-space: nowrap;
+    animation: statsTitlePulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes statsTitlePulse {
+    from { text-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 0 16px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3), 0 4px 12px rgba(0, 0, 0, 0.9); }
+    to { text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 24px rgba(255, 255, 255, 0.7), 0 0 45px rgba(255, 255, 255, 0.5), 0 4px 12px rgba(0, 0, 0, 0.9); }
+}
+
+#page-2 {
+    width: 100%; min-height: 100vh;
+    padding: 25px 30px 120px;
+    background: #05111e;
+    display: flex; flex-direction: column;
+    align-items: flex-start; justify-content: flex-start;
+    gap: 20px; position: relative; z-index: 2;
+}
+
+#students-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.6rem; font-weight: 700; font-style: italic;
+    color: #ffffff; letter-spacing: 3px;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.9), 0 0 25px rgba(255,255,255,0.15);
+    margin-bottom: 5px; padding-left: 2px;
+}
+
+#search-container {
+    width: 100%; max-width: 240px;
+    display: flex; flex-direction: column;
+    align-items: flex-start; gap: 8px;
+}
+
+#search-wrapper { width: 100%; position: relative; display: flex; align-items: center; }
+
+#search-input {
+    width: 100%; padding: 8px 35px 8px 14px;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    font-size: 0.8rem; font-weight: 500;
+    color: #ffffff;
+    background: rgba(15, 30, 50, 0.8);
+    border: 1.5px solid rgba(74, 123, 167, 0.5);
+    border-radius: 20px; outline: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5), inset 0 0 10px rgba(74,123,167,0.1);
+}
+
+#search-input::placeholder { color: rgba(200, 220, 240, 0.5); font-style: italic; }
+
+#search-input:focus {
+    border-color: #4a7ba7;
+    box-shadow: 0 4px 20px rgba(74,123,167,0.5), 0 0 15px rgba(74,123,167,0.3), inset 0 0 15px rgba(74,123,167,0.15);
+}
+
+#search-icon {
+    position: absolute; right: 12px;
+    width: 16px; height: 16px; fill: #4a7ba7;
+    pointer-events: none; transition: fill 0.3s ease;
+}
+
+#search-input:focus + #search-icon { fill: #6a9bc7; }
+
+#no-result {
+    text-align: left; padding: 8px 4px;
+    color: rgba(200, 220, 240, 0.5);
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    font-style: italic; font-size: 0.75rem;
+    display: none;
+}
+
+#no-result.show { display: block; }
+
+/* 🔥 GRID SISWA — 9 KOLOM DI DESKTOP 🔥 */
+#students-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 25px 15px;
+    width: 100%;
+    padding: 10px 0 40px;
+    margin-top: 15px;
+    justify-items: center;
+}
+
+.student-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    transition: transform 0.3s ease;
+    width: 100%;
+    max-width: 110px;
+    box-sizing: border-box;
+}
+
+.student-card:hover { transform: translateY(-5px); }
+
+.student-photo {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(60,60,60,0.9), rgba(35,35,35,0.9));
+    border: 2px solid rgba(74,123,167,0.4);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+    display: flex; justify-content: center; align-items: center;
+    overflow: hidden; position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.student-card:hover .student-photo {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.7), 0 0 0 2px rgba(74,123,167,0.8), 0 0 25px rgba(74,123,167,0.3);
+    border-color: rgba(74,123,167,0.8);
+}
+
+/* 🔥 DEFAULT: posisi tengah (aman untuk mayoritas foto) 🔥 */
+.student-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+}
+
+.student-photo .placeholder {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 1px; text-align: center;
+    text-transform: uppercase; padding: 10px;
+    line-height: 1.3;
+}
+
+.student-name {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    font-size: 0.7rem; font-weight: 600;
+    color: #e8e8e8; text-align: center;
+    line-height: 1.35; letter-spacing: 0.3px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.8), 0 0 10px rgba(255,255,255,0.05);
+    word-break: break-word; width: 100%;
+    min-height: 0; display: flex;
+    justify-content: center; align-items: flex-start;
+    padding: 2px 4px 0;
+}
+
+.student-instagram {
+    display: inline-flex; align-items: center;
+    gap: 4px;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    font-size: 0.62rem; font-weight: 500;
+    color: #8ab4e0; text-decoration: none;
+    padding: 2px 8px; border-radius: 20px;
+    background: rgba(74,123,167,0.15);
+    border: 1px solid rgba(74,123,167,0.35);
+    transition: all 0.3s ease; cursor: pointer;
+    letter-spacing: 0.3px; margin-top: -5px;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.student-instagram:hover {
+    color: #ffffff;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border-color: transparent;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
+}
+
+.student-instagram .ig-icon {
+    width: 11px; height: 11px;
+    fill: currentColor; flex-shrink: 0;
+    transition: fill 0.3s ease;
+}
+
+.student-instagram.no-ig {
+    color: #666;
+    background: rgba(100,100,100,0.15);
+    border-color: rgba(100,100,100,0.3);
+    pointer-events: none; cursor: default;
+}
+
+.student-instagram.no-ig .ig-icon { display: none; }
+.student-instagram.no-ig::before { content: '❌'; font-size: 0.6rem; }
+
+.student-card.hidden { display: none; }
+
+/* 🔥 PEMBATAS HALAMAN — memanjang dari ujung kiri ke kanan layar 🔥 */
+#album-divider {
+    width: 100%;
+    background-image: url('https://i.postimg.cc/4yCpcWPx/Screenshot-2026-09-29-09-48-25-48-1c337646f29875672b5a61192b9010f9.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: local;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.6), 0 5px 30px rgba(0, 0, 0, 0.6);
+    margin: 0;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+}
+
+#album-divider::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 1;
+    pointer-events: none;
+}
+
+#album-divider .divider-title {
+    position: relative;
+    z-index: 2;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    font-style: italic;
+    color: #ffffff;
+    letter-spacing: 6px;
+    text-align: center;
+    text-shadow:
+        0 0 8px rgba(255, 255, 255, 0.7),
+        0 0 16px rgba(255, 255, 255, 0.5),
+        0 0 30px rgba(255, 255, 255, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.9);
+    animation: statsTitlePulse 3s ease-in-out infinite alternate;
+    margin: 0;
+}
+
+#album-divider .divider-subtitle {
+    position: relative;
+    z-index: 2;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 0.75rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 4px;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+}
+
+/* 🔥 HALAMAN 3 — ALBUM (background gelap tapi tidak terlalu gelap) 🔥 */
+#page-3 {
+    width: 100%;
+    min-height: 100vh;
+    padding: 40px 15px 120px;
+    background: #1a2332;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+#page-3 .album-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+    max-width: 1300px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 25px;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        inset 0 0 30px rgba(255, 255, 255, 0.03);
+}
+
+#page-3 .album-photo {
+    aspect-ratio: 4 / 3;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    position: relative;
+    background: #0a0f15;
+    cursor: pointer;
+}
+
+#page-3 .album-photo:hover {
+    transform: scale(1.03);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.7),
+        0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+#page-3 .album-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #0a0f15;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+#page-3 .album-photo:hover img {
+    transform: scale(1.05);
+}
+
+#page-3 .album-photo .album-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(255,255,255,0.35);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 10px;
+    background: linear-gradient(135deg, rgba(40,40,50,0.8), rgba(20,20,30,0.8));
+}
+
+@media (max-width: 600px) {
+    #album-divider {
+        padding: 16px 20px;
+    }
+    #album-divider .divider-title {
+        font-size: 1.2rem;
+        letter-spacing: 4px;
+    }
+    #album-divider .divider-subtitle {
+        font-size: 0.65rem;
+        letter-spacing: 2.5px;
+    }
+    #page-3 {
+        padding: 25px 12px 120px;
+        gap: 20px;
+    }
+    #page-3 .album-grid {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 12px;
+        padding: 14px;
+        border-radius: 18px;
+        max-width: 100%;
+    }
+}
+
+#student-modal {
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 2000; opacity: 0; pointer-events: none;
+    transition: opacity 0.35s ease; padding: 20px;
+}
+
+#student-modal.show { opacity: 1; pointer-events: auto; }
+
+#modal-content {
+    position: relative;
+    background: rgba(20, 35, 55, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid rgba(74, 123, 167, 0.5);
+    border-radius: 25px; padding: 35px 30px;
+    max-width: 400px; width: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 15px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(74,123,167,0.3), inset 0 0 30px rgba(255,255,255,0.05);
+    transform: scale(0.85);
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#student-modal.show #modal-content { transform: scale(1); }
+
+#modal-close {
+    position: absolute; top: 15px; right: 15px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #ffffff; font-size: 20px; font-weight: bold;
+    cursor: pointer; display: flex; justify-content: center; align-items: center;
+    transition: all 0.25s ease; line-height: 1; padding-bottom: 3px;
+}
+
+#modal-close:hover {
+    background: rgba(220,39,67,0.6);
+    border-color: rgba(220,39,67,0.8);
+    transform: scale(1.1) rotate(90deg);
+}
+
+#modal-absen {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.65rem; font-weight: 700;
+    color: #ffffff; letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 5px 16px; border-radius: 20px;
+    background: linear-gradient(135deg, rgba(74,123,167,0.35), rgba(44,74,107,0.35));
+    border: 1px solid rgba(74,123,167,0.6);
+    text-shadow: 0 0 10px rgba(74,123,167,0.6);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+#modal-photo {
+    width: 160px; height: 160px; border-radius: 50%;
+    border: 3px solid rgba(74,123,167,0.7);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 30px rgba(74,123,167,0.4);
+    overflow: hidden; display: flex; justify-content: center; align-items: center;
+    background: rgba(40,40,40,0.6); flex-shrink: 0;
+}
+
+#modal-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+}
+
+#modal-photo .placeholder {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 1px; text-align: center;
+    text-transform: uppercase; padding: 10px;
+    line-height: 1.4;
+}
+
+#modal-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.8rem; font-weight: 800; color: #ffffff;
+    text-align: center; letter-spacing: 2px;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.9), 0 0 25px rgba(255,255,255,0.2);
+    line-height: 1.2; margin: 0;
+}
+
+#modal-role {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem; font-weight: 600;
+    color: #8ab4e0; letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 16px; border-radius: 20px;
+    background: rgba(74,123,167,0.15);
+    border: 1px solid rgba(74,123,167,0.4);
+    text-shadow: 0 0 10px rgba(74,123,167,0.5);
+}
+
+#modal-instagram {
+    display: inline-flex; align-items: center;
+    gap: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem; font-weight: 600;
+    color: #ffffff; text-decoration: none;
+    padding: 10px 24px; border-radius: 30px;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(220,39,67,0.4);
+    cursor: pointer; letter-spacing: 0.5px; margin-top: 5px;
+}
+
+#modal-instagram:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(220,39,67,0.6);
+}
+
+#modal-instagram .ig-icon {
+    width: 16px; height: 16px;
+    fill: #ffffff; flex-shrink: 0;
+}
+
+#modal-instagram.no-ig {
+    background: rgba(100,100,100,0.4);
+    box-shadow: none; cursor: default; pointer-events: none;
+}
+
+#modal-instagram.no-ig .ig-icon { display: none; }
+#modal-instagram.no-ig::before { content: '❌'; font-size: 1rem; }
+
+#mini-player {
+    position: fixed; bottom: 80px; right: 20px;
+    display: flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,240,255,0.95));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(74,123,167,0.5);
+    border-radius: 60px;
+    padding: 6px 14px 6px 8px;
+    box-shadow: 0 10px 30px rgba(74,123,167,0.35), 0 4px 15px rgba(0,0,0,0.3), inset 0 0 20px rgba(255,255,255,0.5);
+    z-index: 999;
+    transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    max-width: 380px; overflow: hidden;
+}
+
+#mini-player:hover {
+    box-shadow: 0 15px 40px rgba(74,123,167,0.5), 0 6px 20px rgba(0,0,0,0.4), inset 0 0 25px rgba(255,255,255,0.7);
+    transform: translateY(-2px);
+}
+
+#mini-play-btn {
+    position: relative;
+    background: linear-gradient(135deg, #4a7ba7, #2c4a6b);
+    border: none; width: 42px; height: 42px; border-radius: 50%;
+    cursor: pointer; display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 4px 15px rgba(74,123,167,0.5), inset 0 -3px 8px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease; flex-shrink: 0; z-index: 2;
+}
+
+#mini-play-btn::before {
+    content: ''; position: absolute;
+    top: -3px; left: -3px; right: -3px; bottom: -3px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #ffffff; border-right-color: #ffffff;
+    opacity: 0; transition: opacity 0.3s ease;
+}
+
+#mini-play-btn.playing::before { opacity: 1; animation: spinRing 2s linear infinite; }
+
+@keyframes spinRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+#mini-play-btn:hover { transform: scale(1.1); }
+#mini-play-btn:active { transform: scale(0.95); }
+#mini-play-btn svg { width: 18px; height: 18px; fill: #ffffff; }
+
+.mini-nav-btn {
+    background: transparent; border: none;
+    width: 28px; height: 28px; border-radius: 50%;
+    cursor: pointer; display: flex; justify-content: center; align-items: center;
+    transition: all 0.2s ease; flex-shrink: 0; color: #4a7ba7;
+}
+
+.mini-nav-btn:hover { background: rgba(74,123,167,0.15); transform: scale(1.15); }
+.mini-nav-btn:active { transform: scale(0.9); }
+
+.mini-nav-btn svg {
+    width: 14px; height: 14px; fill: currentColor;
+    transition: fill 0.2s ease;
+}
+
+.mini-nav-btn:hover svg { fill: #2c4a6b; }
+
+#mini-info {
+    display: flex; flex-direction: column;
+    min-width: 0; flex: 1; max-width: 140px; z-index: 2;
+}
+
+#mini-title {
+    color: #2c4a6b; font-size: 0.72rem; font-weight: 800;
+    white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; letter-spacing: 0.3px;
+    margin-bottom: 2px;
+}
+
+#mini-progress {
+    width: 100%; height: 4px; border-radius: 2px;
+    background: rgba(74,123,167,0.2);
+    -webkit-appearance: none; appearance: none;
+    cursor: pointer; outline: none;
+}
+
+#mini-progress::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: linear-gradient(135deg, #4a7ba7, #2c4a6b);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(74,123,167,0.6);
+}
+
+#mini-progress::-moz-range-thumb {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: linear-gradient(135deg, #4a7ba7, #2c4a6b);
+    cursor: pointer; border: none;
+}
+
+.equalizer {
+    display: flex; align-items: flex-end; gap: 2px;
+    height: 16px; margin-left: 4px; flex-shrink: 0; z-index: 2;
+}
+
+.equalizer .bar {
+    width: 2.5px;
+    background: linear-gradient(to top, #4a7ba7, #2c4a6b);
+    border-radius: 2px;
+    animation: eqBar 1s ease-in-out infinite;
+}
+
+.equalizer .bar:nth-child(1) { animation-delay: 0s; height: 40%; }
+.equalizer .bar:nth-child(2) { animation-delay: 0.2s; height: 70%; }
+.equalizer .bar:nth-child(3) { animation-delay: 0.4s; height: 100%; }
+.equalizer .bar:nth-child(4) { animation-delay: 0.1s; height: 60%; }
+.equalizer .bar:nth-child(5) { animation-delay: 0.3s; height: 80%; }
+
+@keyframes eqBar {
+    0%, 100% { transform: scaleY(0.4); }
+    50% { transform: scaleY(1); }
+}
+
+.equalizer.paused .bar { animation-play-state: paused; opacity: 0.4; }
+
+#playlist-toggle {
+    background: rgba(74,123,167,0.12); border: none;
+    width: 32px; height: 32px; border-radius: 50%;
+    cursor: pointer; display: flex; justify-content: center; align-items: center;
+    flex-shrink: 0; color: #4a7ba7;
+    font-size: 18px; font-weight: 900; line-height: 1;
+    transition: all 0.25s ease; padding-bottom: 6px; z-index: 2;
+}
+
+#playlist-toggle:hover {
+    background: rgba(74,123,167,0.25);
+    transform: scale(1.1) rotate(90deg);
+    color: #2c4a6b;
+}
+
+#playlist-toggle:active { transform: scale(0.95) rotate(90deg); }
+
+#playlist-menu {
+    position: fixed; bottom: 140px; right: 20px;
+    width: 300px; max-height: 340px; overflow-y: auto;
+    background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(240,245,255,0.98));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(74,123,167,0.4);
+    border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.5), 0 4px 15px rgba(74,123,167,0.3);
+    z-index: 1000; padding: 14px;
+    opacity: 0; pointer-events: none;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#playlist-menu.show {
+    opacity: 1; pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+#playlist-menu::-webkit-scrollbar { width: 6px; }
+#playlist-menu::-webkit-scrollbar-track { background: rgba(74,123,167,0.1); border-radius: 3px; }
+#playlist-menu::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #4a7ba7, #2c4a6b); border-radius: 3px; }
+
+#playlist-menu h3 {
+    color: #2c4a6b; font-size: 0.85rem; font-weight: 800;
+    margin-bottom: 10px; padding: 0 8px 10px;
+    border-bottom: 1.5px solid rgba(74,123,167,0.2);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    display: flex; align-items: center; gap: 6px;
+}
+
+.playlist-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px; border-radius: 14px;
+    cursor: pointer; transition: all 0.25s ease;
+    color: #444; font-size: 0.82rem; font-weight: 600;
+    margin-bottom: 4px; position: relative; overflow: hidden;
+}
+
+.playlist-item::before {
+    content: ''; position: absolute; left: 0; top: 0;
+    height: 100%; width: 4px;
+    background: linear-gradient(to bottom, #4a7ba7, #2c4a6b);
+    transform: scaleY(0); transition: transform 0.3s ease;
+    border-radius: 0 4px 4px 0;
+}
+
+.playlist-item:hover { background: rgba(74,123,167,0.1); transform: translateX(4px); }
+
+.playlist-item.active {
+    background: linear-gradient(135deg, rgba(74,123,167,0.18), rgba(44,74,107,0.18));
+    color: #2c4a6b; font-weight: 800;
+}
+
+.playlist-item.active::before { transform: scaleY(1); }
+
+.playlist-item-icon {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, #4a7ba7, #2c4a6b);
+    display: flex; justify-content: center; align-items: center;
+    flex-shrink: 0; color: #fff; font-size: 13px;
+    box-shadow: 0 3px 10px rgba(74,123,167,0.4);
+}
+
+.playlist-item.active .playlist-item-icon { animation: pulseIcon 1.5s ease-in-out infinite; }
+
+@keyframes pulseIcon {
+    0%, 100% { transform: scale(1); box-shadow: 0 3px 10px rgba(74,123,167,0.4); }
+    50% { transform: scale(1.1); box-shadow: 0 5px 18px rgba(74,123,167,0.7); }
+}
+
+.playlist-item-title {
+    flex: 1; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+}
+
+@media (max-width: 600px) {
+    #welcome-text { font-size: 1.6rem; letter-spacing: 3px; }
+    #welcome-box { padding: 22px 28px; }
+    #slider { height: 150px; }
+    #page-1 { gap: 55px; }
+    #info-section { gap: 20px; }
+    #about-box { padding: 25px 20px; gap: 20px; border-radius: 18px; }
+    #about-box h1 { font-size: 1.5rem; }
+    #about-box .elegant-text { font-size: 1rem; }
+    .member-photo { width: 60px; height: 60px; }
+    .tree-wali .member-photo { width: 80px; height: 80px; }
+
+    .tree-wali .member-card { width: 280px; min-height: auto; padding: 15px 20px; }
+    .tree-wali .member-name { max-width: 240px; width: 240px; min-height: auto; padding: 8px 15px; font-size: 0.65rem; line-height: 1.4; }
+    .tree-wali .member-role { font-size: 0.75rem; padding: 4px 16px; }
+
+    .tree-columns-wrapper { gap: 0 60px; max-width: 100%; grid-template-columns: 1fr 1fr; }
+    .tree-column { gap: 55px; width: 100%; align-items: center; }
+    .tree-column-item { width: 100%; display: flex; flex-direction: column; align-items: center; }
+    .tree-column-left .tree-column-item::before { top: 30px; left: 100%; width: 30px; height: 2px; }
+    .tree-column-right .tree-column-item::before { top: 30px; right: 100%; width: 30px; height: 2px; }
+
+    .member-card { width: 130px; min-height: 160px; justify-content: flex-start; padding: 12px 10px; border-radius: 14px; }
+    .member-role { font-size: 0.7rem; padding: 3px 10px; letter-spacing: 1px; white-space: nowrap; }
+    .member-name { font-size: 0.6rem; padding: 5px 10px; max-width: 110px; width: 110px; min-height: 44px; display: flex; justify-content: center; align-items: center; box-sizing: border-box; }
+    .tree-students { margin-top: 30px; margin-bottom: 70px; }
+
+    .stat-number { font-size: 1.5rem; }
+    .stat-label { font-size: 0.6rem; letter-spacing: 2px; }
+    #stats-box .stats-title { font-size: 1rem; letter-spacing: 2px; }
+
+    #page-2 { padding: 20px 16px 140px; gap: 15px; align-items: flex-start; }
+    #students-title { font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 0; }
+    #search-container { max-width: 180px; align-items: flex-start; }
+    #search-input { padding: 7px 32px 7px 12px; font-size: 0.75rem; }
+    #search-icon { right: 10px; width: 14px; height: 14px; }
+    #no-result { font-size: 0.7rem; padding: 6px 2px; }
+
+    #students-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 5px 0 30px; margin-top: 10px; width: 100%; justify-items: center; }
+    .student-card { width: 100%; max-width: 110px; }
+    .student-photo { width: 100%; aspect-ratio: 1 / 1; border-radius: 10px; }
+    .student-name { font-size: 0.62rem; min-height: 0; padding: 2px 2px 0; }
+    .student-photo .placeholder { font-size: 0.5rem; padding: 6px; }
+    .student-instagram { font-size: 0.55rem; padding: 2px 8px; gap: 3px; margin-top: -4px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+    .student-instagram .ig-icon { width: 10px; height: 10px; }
+
+    #mini-player { max-width: 94%; right: 12px; bottom: 75px; }
+
+    #modal-content { padding: 28px 22px; gap: 12px; }
+    #modal-absen { font-size: 0.6rem; letter-spacing: 2px; padding: 4px 14px; }
+    #modal-photo { width: 130px; height: 130px; }
+    #modal-photo .placeholder { font-size: 0.6rem; padding: 8px; }
+    #modal-name { font-size: 1.4rem; }
+    #modal-role { font-size: 0.65rem; letter-spacing: 2px; }
+    #modal-instagram { font-size: 0.8rem; padding: 9px 20px; }
+    #modal-instagram .ig-icon { width: 14px; height: 14px; }
+}
+
+@media (min-width: 601px) and (max-width: 1023px) {
+    #students-grid { grid-template-columns: repeat(5, 1fr); gap: 25px 15px; }
+    #page-3 .album-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div id="welcome-screen">
+    <div id="welcome-box">
+        <h1 id="welcome-text">WELCOME TO XII-F6</h1>
+    </div>
+</div>
+
+<div id="main-content">
+
+    <div id="page-1">
+
+        <div id="slider">
+            <div id="slider-track">
+                <img src="https://i.postimg.cc/YqGFjNt9/IMG-20260928-193741.jpg" alt="Foto 1">
+                <img src="https://i.postimg.cc/5yDVmFTJ/IMG-20260111-WA0042.jpg" alt="Foto 2">
+                <img src="https://i.postimg.cc/nhqtxrjD/IMG-20260929-085638.jpg" alt="Foto 3">
+            </div>
+            <div id="slider-dots">
+                <div class="dot active" data-index="0"></div>
+                <div class="dot" data-index="1"></div>
+                <div class="dot" data-index="2"></div>
+            </div>
+        </div>
+
+        <div id="info-section">
+            <a id="instagram-logo" href="https://www.instagram.com/socienithree_?stkn=Y2llMWYyNGJvYzlw" target="_blank" rel="noopener noreferrer" aria-label="Instagram XII-F6">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+            </a>
+
+            <div id="about-box">
+                <h1>🔱 Socienithree 🔱</h1>
+                <p class="elegant-text">XII-F6 bukan sekadar nama kelas di atas kertas, tapi tempat di mana cerita hebat, tawa, dan perjuangan kita dirajut bersama.</p>
+                <div class="footer">© 2026 XII-F6 | Kelas Hebat</div>
+            </div>
+        </div>
+
+        <div class="divider-line"></div>
+
+        <div id="class-structure">
+            <h2>Struktur Kelas</h2>
+            <div class="structure-tree">
+
+                <div class="tree-wali">
+                    <div class="member-card">
+                        <div class="member-photo"><div class="placeholder">FOTO 1</div></div>
+                        <div class="member-role">Wali Kelas</div>
+                        <div class="member-name">DWI AYU PERMATA SARI S.Pd</div>
+                    </div>
+                </div>
+
+                <div class="tree-columns-wrapper">
+                    <div class="tree-column tree-column-left">
+                        <div class="tree-column-item">
+                            <div class="member-card">
+                                <div class="member-photo"><img src="https://i.postimg.cc/kgLC05Ng/0098341491.png" alt="Ketua Kelas"></div>
+                                <div class="member-role">Ketua Kelas</div>
+                                <div class="member-name">LIONEL DAPA SITORUS</div>
+                            </div>
+                        </div>
+                        <div class="tree-column-item">
+                            <div class="member-card">
+                                <div class="member-photo"><img src="https://i.postimg.cc/QMLL6ysF/0086670431.jpg" alt="Sekretaris 1"></div>
+                                <div class="member-role">Sekretaris 1</div>
+                                <div class="member-name">REYSIA OLIVIA RAHMADANI</div>
+                            </div>
+                        </div>
+                        <div class="tree-column-item">
+                            <div class="member-card">
+                                <div class="member-photo"><img src="https://i.postimg.cc/pT264NSX/0107934349.jpg" alt="Bendahara 1"></div>
+                                <div class="member-role">Bendahara 1</div>
+                                <div class="member-name">EL HAWA QOTRUM NADA</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tree-column tree-column-right">
+                        <div class="tree-column-item">
+                            <div class="member-card">
+                                <div class="member-photo"><img src="https://i.postimg.cc/dt1KDC4F/0092594551.jpg" alt="Wakil Ketua"></div>
+                                <div class="member-role">Wakil Ketua</div>
+                                <div class="member-name">M. NABIL AL HAFIDZ</div>
+                            </div>
+                        </div>
+                        <div class="tree-column-item">
+                            <div class="member-card">
+                                <div class="member-photo"><img src="https://i.postimg.cc/ZKgXRMWd/0086673833.jpg" alt="Sekretaris 2"></div>
+                                <div class="member-role">Sekretaris 2</div>
+                                <div class="member-name">PUJI LESTARI</div>
+                            </div>
+                        </div>
+                        <div class="tree-column-item">
+                            <div class="member-card">
+                                <div class="member-photo"><img src="https://i.postimg.cc/k5C1R3q6/0096400038.jpg" alt="Bendahara 2"></div>
+                                <div class="member-role">Bendahara 2</div>
+                                <div class="member-name">YUSTIKA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tree-students">
+                    <div class="member-role">Siswa / Siswi XII-F6</div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div id="stats-box">
+        <div class="stats-title">Socienithree</div>
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="stat-number">35</div>
+                <div class="stat-label">Students</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">27</div>
+                <div class="stat-label">Boys</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Girls</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-2">
+
+        <h1 id="students-title">Daftar Nama Siswa</h1>
+
+        <div id="search-container">
+            <div id="search-wrapper">
+                <input type="text" id="search-input" placeholder="Cari nama siswa..." autocomplete="off">
+                <svg id="search-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+            </div>
+            <div id="no-result">😕 Nama tidak ditemukan</div>
+        </div>
+
+        <div id="students-grid">
+            <div class="student-card" data-name="AFIF ALFAREZI">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/WzH2jd59/1000495075.jpg','AFIF ALFAREZI','Siswa XII-F6','https://www.instagram.com/afif_alfrzi7','@afif_alfrzi7','ABSEN 1')"><img src="https://i.postimg.cc/WzH2jd59/1000495075.jpg" alt="AFIF ALFAREZI"></div>
+                <div class="student-name">AFIF ALFAREZI</div>
+                <a class="student-instagram" href="https://www.instagram.com/afif_alfrzi7" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@afif_alfrzi7</a>
+            </div>
+            <div class="student-card" data-name="ALBART ISHNY F.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/zGn122YK/3084502152.jpg','ALBART ISHNY F.','Siswa XII-F6','https://www.instagram.com/albartishny_','@albartishny_','ABSEN 2')"><img src="https://i.postimg.cc/zGn122YK/3084502152.jpg" alt="ALBART ISHNY F."></div>
+                <div class="student-name">ALBART ISHNY F.</div>
+                <a class="student-instagram" href="https://www.instagram.com/albartishny_" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@albartishny_</a>
+            </div>
+            <div class="student-card" data-name="ALFA RIDHO">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/nr660BRF/0094406131.jpg','ALFA RIDHO','Siswa XII-F6','https://www.instagram.com/_alf4ridho','@_alf4ridho','ABSEN 3')"><img src="https://i.postimg.cc/nr660BRF/0094406131.jpg" alt="ALFA RIDHO"></div>
+                <div class="student-name">ALFA RIDHO</div>
+                <a class="student-instagram" href="https://www.instagram.com/_alf4ridho" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@_alf4ridho</a>
+            </div>
+            <div class="student-card" data-name="ALFATH TURAHMAN">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/y6M1fZSC/IMG-20260804-WA0007.jpg','ALFATH TURAHMAN','Siswa XII-F6','https://www.instagram.com/alfattrhm_','@alfattrhm_','ABSEN 4')"><img src="https://i.postimg.cc/y6M1fZSC/IMG-20260804-WA0007.jpg" alt="ALFATH TURAHMAN"></div>
+                <div class="student-name">ALFATH TURAHMAN</div>
+                <a class="student-instagram" href="https://www.instagram.com/alfattrhm_" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@alfattrhm_</a>
+            </div>
+            <div class="student-card" data-name="ALFINO ADITYA A.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/Bv7s2LGM/3088741755.jpg','ALFINO ADITYA A.','Siswa XII-F6','https://www.instagram.com/alfinoadityaaa','@alfinoadityaaa','ABSEN 5')"><img src="https://i.postimg.cc/Bv7s2LGM/3088741755.jpg" alt="ALFINO ADITYA A."></div>
+                <div class="student-name">ALFINO ADITYA A.</div>
+                <a class="student-instagram" href="https://www.instagram.com/alfinoadityaaa" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@alfinoadityaaa</a>
+            </div>
+            <div class="student-card" data-name="DAVID AGLENSIUS S.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/PrnHbnBW/0097760610.jpg','DAVID AGLENSIUS S.','Siswa XII-F6','','','ABSEN 6')"><img src="https://i.postimg.cc/PrnHbnBW/0097760610.jpg" alt="DAVID AGLENSIUS S."></div>
+                <div class="student-name">DAVID AGLENSIUS S.</div>
+                <a class="student-instagram no-ig">No IG</a>
+            </div>
+            <div class="student-card" data-name="EL HAWA QOTRUM N.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/pT264NSX/0107934349.jpg','EL HAWA QOTRUM N.','Bendahara 1','https://www.instagram.com/cicuu_hawa','@cicuu_hawa','ABSEN 7')"><img src="https://i.postimg.cc/pT264NSX/0107934349.jpg" alt="EL HAWA QOTRUM N."></div>
+                <div class="student-name">EL HAWA QOTRUM N.</div>
+                <a class="student-instagram" href="https://www.instagram.com/cicuu_hawa" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@cicuu_hawa</a>
+            </div>
+            <div class="student-card" data-name="FADHEL M. ILHAM">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/yNk24LwQ/file-00000000ee6c81fa94f6a6e0a1a4cb67.png','FADHEL M. ILHAM','Siswa XII-F6','','','ABSEN 8')"><img src="https://i.postimg.cc/yNk24LwQ/file-00000000ee6c81fa94f6a6e0a1a4cb67.png" alt="FADHEL M. ILHAM"></div>
+                <div class="student-name">FADHEL M. ILHAM</div>
+                <a class="student-instagram no-ig">No IG</a>
+            </div>
+            <div class="student-card" data-name="FADHIL DWI AKBAR">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/rsCPC3rQ/0096245856.jpg','FADHIL DWI AKBAR','Siswa XII-F6','https://www.instagram.com/fdldwiakbr1_','@fdldwiakbr1_','ABSEN 9')"><img src="https://i.postimg.cc/rsCPC3rQ/0096245856.jpg" alt="FADHIL DWI AKBAR"></div>
+                <div class="student-name">FADHIL DWI AKBAR</div>
+                <a class="student-instagram" href="https://www.instagram.com/fdldwiakbr1_" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@fdldwiakbr1_</a>
+            </div>
+            <div class="student-card" data-name="FATTAN AL FATIH">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/6p110dyh/0097392536.jpg','FATTAN AL FATIH','Siswa XII-F6','','','ABSEN 10')"><img src="https://i.postimg.cc/6p110dyh/0097392536.jpg" alt="FATTAN AL FATIH"></div>
+                <div class="student-name">FATTAN AL FATIH</div>
+                <a class="student-instagram no-ig">No IG</a>
+            </div>
+            <div class="student-card" data-name="HOKIEN">
+                <div class="student-photo" onclick="showStudentModal('https://i.ibb.co.com/LDQ3nmNp/file-0000000066d081f88832b55c76fe04a2.png','HOKIEN','Siswa XII-F6','','','ABSEN 11')"><img src="https://i.ibb.co.com/LDQ3nmNp/file-0000000066d081f88832b55c76fe04a2.png" alt="HOKIEN"></div>
+                <div class="student-name">HOKIEN</div>
+                <a class="student-instagram no-ig">No IG</a>
+            </div>
+            <div class="student-card" data-name="JOSUA SARAGI">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/D0BczTG1/0092766248.png','JOSUA SARAGI','Siswa XII-F6','','','ABSEN 12')"><img src="https://i.postimg.cc/D0BczTG1/0092766248.png" alt="JOSUA SARAGI"></div>
+                <div class="student-name">JOSUA SARAGI</div>
+                <a class="student-instagram no-ig">No IG</a>
+            </div>
+            <div class="student-card" data-name="JUANFELIX ROWLAND N.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/htH1vMX2/0094611385.jpg','JUANFELIX ROWLAND N.','Siswa XII-F6','https://www.instagram.com/juanfxrd_','@juanfxrd_','ABSEN 13')"><img src="https://i.postimg.cc/htH1vMX2/0094611385.jpg" alt="JUANFELIX ROWLAND N."></div>
+                <div class="student-name">JUANFELIX ROWLAND N.</div>
+                <a class="student-instagram" href="https://www.instagram.com/juanfxrd_" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@juanfxrd_</a>
+            </div>
+            <div class="student-card" data-name="LIONEL DAPA S.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/kgLC05Ng/0098341491.png','LIONEL DAPA S.','Ketua Kelas','https://www.instagram.com/lionelds__','@lionelds__','ABSEN 14')"><img src="https://i.postimg.cc/kgLC05Ng/0098341491.png" alt="LIONEL DAPA S."></div>
+                <div class="student-name">LIONEL DAPA S.</div>
+                <a class="student-instagram" href="https://www.instagram.com/lionelds__" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@lionelds__</a>
+            </div>
+            <div class="student-card" data-name="M. IYAL FAIZIN E.">
+                <div class="student-photo" onclick="showStudentModal('https://i.ibb.co.com/pBC2fvcs/008376190.png','M. IYAL FAIZIN E.','Siswa XII-F6','https://www.instagram.com/mhmdyallfzn__','@mhmdyallfzn__','ABSEN 15')"><img src="https://i.ibb.co.com/pBC2fvcs/008376190.png" alt="M. IYAL FAIZIN E."></div>
+                <div class="student-name">M. IYAL FAIZIN E.</div>
+                <a class="student-instagram" href="https://www.instagram.com/mhmdyallfzn__" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@mhmdyallfzn__</a>
+            </div>
+            <div class="student-card" data-name="M. RODI MARDIATAN">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/sX2xrCVC/0085857620.jpg','M. RODI MARDIATAN','Siswa XII-F6','https://www.instagram.com/rodsurprises','@rodsurprises','ABSEN 16')"><img src="https://i.postimg.cc/sX2xrCVC/0085857620.jpg" alt="M. RODI MARDIATAN"></div>
+                <div class="student-name">M. RODI MARDIATAN</div>
+                <a class="student-instagram" href="https://www.instagram.com/rodsurprises" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@rodsurprises</a>
+            </div>
+            <div class="student-card" data-name="M. FAREL ALFAHDI">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/j5RNn1t3/0098493438.jpg','M. FAREL ALFAHDI','Siswa XII-F6','https://www.instagram.com/mfarelalfahdi__','@mfarelalfahdi__','ABSEN 17')"><img src="https://i.postimg.cc/j5RNn1t3/0098493438.jpg" alt="M. FAREL ALFAHDI"></div>
+                <div class="student-name">M. FAREL ALFAHDI</div>
+                <a class="student-instagram" href="https://www.instagram.com/mfarelalfahdi__" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@mfarelalfahdi__</a>
+            </div>
+            <div class="student-card" data-name="M. NABIL AL HAFIDZ">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/dt1KDC4F/0092594551.jpg','M. NABIL AL HAFIDZ','Wakil Ketua','https://www.instagram.com/mhmmaadnbiill','@mhmmaadnbiill','ABSEN 18')"><img src="https://i.postimg.cc/dt1KDC4F/0092594551.jpg" alt="M. NABIL AL HAFIDZ"></div>
+                <div class="student-name">M. NABIL AL HAFIDZ</div>
+                <a class="student-instagram" href="https://www.instagram.com/mhmmaadnbiill" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@mhmmaadnbiill</a>
+            </div>
+            <div class="student-card" data-name="MAULIA PUTRI">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/jj2CVrqK/IMG-20260806-WA0002.jpg','MAULIA PUTRI','Siswi XII-F6','https://www.instagram.com/mauliaputriiiii_','@mauliaputriiiii_','ABSEN 19')"><img src="https://i.postimg.cc/jj2CVrqK/IMG-20260806-WA0002.jpg" alt="MAULIA PUTRI"></div>
+                <div class="student-name">MAULIA PUTRI</div>
+                <a class="student-instagram" href="https://www.instagram.com/mauliaputriiiii_" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@mauliaputriiiii_</a>
+            </div>
+            <div class="student-card" data-name="MOHAN JIBRIL S.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/TP1h8X2f/0085549234.jpg','MOHAN JIBRIL S.','Siswa XII-F6','https://www.instagram.com/bilzzzzt28','@bilzzzzt28','ABSEN 20')"><img src="https://i.postimg.cc/TP1h8X2f/0085549234.jpg" alt="MOHAN JIBRIL S."></div>
+                <div class="student-name">MOHAN JIBRIL S.</div>
+                <a class="student-instagram" href="https://www.instagram.com/bilzzzzt28" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@bilzzzzt28</a>
+            </div>
+            <div class="student-card" data-name="MUHAMAD NATHA P.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/VNv5ycsw/IMG-20260806-WA0003.jpg','MUHAMAD NATHA P.','Siswa XII-F6','https://www.instagram.com/mhmdnata.p','@mhmdnata.p','ABSEN 21')"><img src="https://i.postimg.cc/VNv5ycsw/IMG-20260806-WA0003.jpg" alt="MUHAMAD NATHA P."></div>
+                <div class="student-name">MUHAMAD NATHA P.</div>
+                <a class="student-instagram" href="https://www.instagram.com/mhmdnata.p" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@mhmdnata.p</a>
+            </div>
+            <div class="student-card" data-name="MUHAMMAD FAATHIR A.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/6QqTsN6Q/1000495060.jpg','MUHAMMAD FAATHIR A.','Siswa XII-F6','https://www.instagram.com/fathh__ierr','@fathh__ierr','ABSEN 22')"><img src="https://i.postimg.cc/6QqTsN6Q/1000495060.jpg" alt="MUHAMMAD FAATHIR A."></div>
+                <div class="student-name">MUHAMMAD FAATHIR A.</div>
+                <a class="student-instagram" href="https://www.instagram.com/fathh__ierr" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@fathh__ierr</a>
+            </div>
+            <div class="student-card" data-name="NAILA">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/vTJ5TZBX/0082488821.jpg','NAILA','Siswi XII-F6','https://www.instagram.com/lal_laa28','@lal_laa28','ABSEN 23')"><img src="https://i.postimg.cc/vTJ5TZBX/0082488821.jpg" alt="NAILA"></div>
+                <div class="student-name">NAILA</div>
+                <a class="student-instagram" href="https://www.instagram.com/lal_laa28" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@lal_laa28</a>
+            </div>
+            <div class="student-card" data-name="PASKAH GEOVANO S.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/SN9W5CTc/file-00000000a2d081f78951d1e7052238ee.png','PASKAH GEOVANO S.','Siswa XII-F6','https://www.instagram.com/geovanosinurat','@geovanosinurat','ABSEN 24')"><img src="https://i.postimg.cc/SN9W5CTc/file-00000000a2d081f78951d1e7052238ee.png" alt="PASKAH GEOVANO S."></div>
+                <div class="student-name">PASKAH GEOVANO S.</div>
+                <a class="student-instagram" href="https://www.instagram.com/geovanosinurat" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@geovanosinurat</a>
+            </div>
+            <div class="student-card" data-name="PUJI LESTARI">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/ZKgXRMWd/0086673833.jpg','PUJI LESTARI','Sekretaris 2','https://www.instagram.com/avocado_essz','@avocado_essz','ABSEN 25')"><img src="https://i.postimg.cc/ZKgXRMWd/0086673833.jpg" alt="PUJI LESTARI"></div>
+                <div class="student-name">PUJI LESTARI</div>
+                <a class="student-instagram" href="https://www.instagram.com/avocado_essz" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@avocado_essz</a>
+            </div>
+            <div class="student-card" data-name="PUTRI VALENTIN N.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/C53b5x12/IMG-20260805-WA0000.jpg','PUTRI VALENTIN N.','Siswi XII-F6','','','ABSEN 26')"><img src="https://i.postimg.cc/C53b5x12/IMG-20260805-WA0000.jpg" alt="PUTRI VALENTIN N." style="object-position: center 20%;"></div>
+                <div class="student-name">PUTRI VALENTIN N.</div>
+                <a class="student-instagram no-ig">No IG</a>
+            </div>
+            <div class="student-card" data-name="RAMOT SAMUEL MANGAPOI H.">
+                <div class="student-photo" onclick="showStudentModal('https://i.ibb.co.com/HDVP0wqs/b8152333-1759-4f4b-87a5-f28ec875afd7.png','RAMOT SAMUEL MANGAPOI H.','Siswa XII-F6','https://www.instagram.com/rmottzz_','@rmottzz_','ABSEN 27')"><img src="https://i.ibb.co.com/HDVP0wqs/b8152333-1759-4f4b-87a5-f28ec875afd7.png" alt="RAMOT SAMUEL MANGAPOI H."></div>
+                <div class="student-name">RAMOT SAMUEL MANGAPOI H.</div>
+                <a class="student-instagram" href="https://www.instagram.com/rmottzz_" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@rmottzz_</a>
+            </div>
+            <div class="student-card" data-name="RANDI PEMIMPIN H.">
+                <div class="student-photo" onclick="showStudentModal('https://i.ibb.co.com/8DXR5qM8/0083194456.png','RANDI PEMIMPIN H.','Siswa XII-F6','https://www.instagram.com/rndypmimpn28','@rndypmimpn28','ABSEN 28')"><img src="https://i.ibb.co.com/8DXR5qM8/0083194456.png" alt="RANDI PEMIMPIN H."></div>
+                <div class="student-name">RANDI PEMIMPIN H.</div>
+                <a class="student-instagram" href="https://www.instagram.com/rndypmimpn28" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@rndypmimpn28</a>
+            </div>
+            <div class="student-card" data-name="REYSIA OLIVIA R.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/QMLL6ysF/0086670431.jpg','REYSIA OLIVIA R.','Sekretaris 1','https://www.instagram.com/reysiaolvia_','@reysiaolvia_','ABSEN 29')"><img src="https://i.postimg.cc/QMLL6ysF/0086670431.jpg" alt="REYSIA OLIVIA R."></div>
+                <div class="student-name">REYSIA OLIVIA R.</div>
+                <a class="student-instagram" href="https://www.instagram.com/reysiaolvia_" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@reysiaolvia_</a>
+            </div>
+            <div class="student-card" data-name="RONA BILLA PUTRI">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/c12RXXmc/Screenshot-20260802-192628-2.jpg','RONA BILLA PUTRI','Siswi XII-F6','https://www.instagram.com/naa_ay28','@naa_ay28','ABSEN 30')"><img src="https://i.postimg.cc/c12RXXmc/Screenshot-20260802-192628-2.jpg" alt="RONA BILLA PUTRI"></div>
+                <div class="student-name">RONA BILLA PUTRI</div>
+                <a class="student-instagram" href="https://www.instagram.com/naa_ay28" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@naa_ay28</a>
+            </div>
+            <div class="student-card" data-name="USAMAH AL-KHADAFFI">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/gkhv58SM/0096853968.jpg','USAMAH AL-KHADAFFI','Siswa XII-F6','https://www.instagram.com/usamahh17__','@usamahh17__','ABSEN 31')"><img src="https://i.postimg.cc/gkhv58SM/0096853968.jpg" alt="USAMAH AL-KHADAFFI"></div>
+                <div class="student-name">USAMAH AL-KHADAFFI</div>
+                <a class="student-instagram" href="https://www.instagram.com/usamahh17__" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@usamahh17__</a>
+            </div>
+            <div class="student-card" data-name="WAHYU BRAHMA R.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/8Pvh3MKB/0099251832.jpg','WAHYU BRAHMA R.','Siswa XII-F6','https://www.instagram.com/brhmrdty2201','@brhmrdty2201','ABSEN 32')"><img src="https://i.postimg.cc/8Pvh3MKB/0099251832.jpg" alt="WAHYU BRAHMA R." style="object-position: center 30%;"></div>
+                <div class="student-name">WAHYU BRAHMA R.</div>
+                <a class="student-instagram" href="https://www.instagram.com/brhmrdty2201" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@brhmrdty2201</a>
+            </div>
+            <div class="student-card" data-name="WAHYU FAHREYZI N.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/rF4Sbxn9/1000511867.jpg','WAHYU FAHREYZI N.','Siswa XII-F6','https://www.instagram.com/_sinosu','@_sinosu','ABSEN 33')"><img src="https://i.postimg.cc/rF4Sbxn9/1000511867.jpg" alt="WAHYU FAHREYZI N." style="object-position: center 20%;"></div>
+                <div class="student-name">WAHYU FAHREYZI N.</div>
+                <a class="student-instagram" href="https://www.instagram.com/_sinosu" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@_sinosu</a>
+            </div>
+            <div class="student-card" data-name="YEHEZKYEL PARDAMAEN M.">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/fTdxFm28/IMG-20260804-WA0000.jpg','YEHEZKYEL PARDAMAEN M.','Siswa XII-F6','https://www.instagram.com/yehezkyelprdamean','@yehezkyelprdamean','ABSEN 34')"><img src="https://i.postimg.cc/fTdxFm28/IMG-20260804-WA0000.jpg" alt="YEHEZKYEL PARDAMAEN M."></div>
+                <div class="student-name">YEHEZKYEL PARDAMAEN M.</div>
+                <a class="student-instagram" href="https://www.instagram.com/yehezkyelprdamean" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@yehezkyelprdamean</a>
+            </div>
+            <div class="student-card" data-name="YUSTIKA">
+                <div class="student-photo" onclick="showStudentModal('https://i.postimg.cc/k5C1R3q6/0096400038.jpg','YUSTIKA','Bendahara 2','https://www.instagram.com/tikauyye','@tikauyye','ABSEN 35')"><img src="https://i.postimg.cc/k5C1R3q6/0096400038.jpg" alt="YUSTIKA"></div>
+                <div class="student-name">YUSTIKA</div>
+                <a class="student-instagram" href="https://www.instagram.com/tikauyye" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@tikauyye</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔥 PEMBATAS HALAMAN — memanjang penuh dari ujung kiri ke kanan 🔥 -->
+    <div id="album-divider">
+        <h2 class="divider-title">ALBUM</h2>
+        <p class="divider-subtitle">Kenangan XII-F6</p>
+    </div>
+
+    <!-- 🔥 HALAMAN 3 — ALBUM (background gelap tapi tidak terlalu gelap) 🔥 -->
+    <div id="page-3">
+        <div class="album-grid">
+            <div class="album-photo">
+                <img src="https://i.ibb.co.com/qYJb7h7y/IMG-20260930-182332.jpg" alt="Album 1">
+            </div>
+            <div class="album-photo">
+                <img src="https://i.ibb.co.com/vvPpP0C1/IMG-20260930-182345.jpg" alt="Album 2">
+            </div>
+            <div class="album-photo">
+                <img src="https://i.ibb.co.com/VcfSfgts/IMG-20260930-182513.jpg" alt="Album 3">
+            </div>
+            <div class="album-photo">
+                <img src="https://i.ibb.co.com/ynbpBVym/IMG-20260930-182458.jpg" alt="Album 4">
+            </div>
+            <div class="album-photo">
+                <img src="https://i.ibb.co.com/BVNqyq6G/IMG-20260930-182430.jpg" alt="Album 5">
+            </div>
+            <div class="album-photo">
+                <img src="https://i.ibb.co.com/v4MTkc1Z/IMG-20260930-182401.jpg" alt="Album 6">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="student-modal" onclick="closeStudentModal()">
+    <div id="modal-content" onclick="event.stopPropagation()">
+        <button id="modal-close" onclick="closeStudentModal()">×</button>
+        <div id="modal-photo"><img id="modal-photo-img" src="" alt="Foto Siswa"><div id="modal-photo-placeholder" class="placeholder" style="display:none;"></div></div>
+        <div id="modal-absen">ABSEN 1</div>
+        <h2 id="modal-name">Nama Siswa</h2>
+        <div id="modal-role">Siswa XII-F6</div>
+        <a id="modal-instagram" href="#" target="_blank" rel="noopener noreferrer"><svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@username</a>
+    </div>
+</div>
+
+<div id="playlist-menu">
+    <h3>🎵 Daftar Lagu</h3>
+    <div id="playlist-list"></div>
+</div>
+
+<div id="mini-player">
+    <button class="mini-nav-btn" id="mini-prev-btn" aria-label="Previous">
+        <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+    </button>
+    <button id="mini-play-btn" aria-label="Play/Pause">
+        <svg id="mini-icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="mini-icon-pause" viewBox="0 0 24 24" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </button>
+    <button class="mini-nav-btn" id="mini-next-btn" aria-label="Next">
+        <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+    </button>
+    <div id="mini-info">
+        <div id="mini-title">Where'd All the Time Go?</div>
+        <input type="range" id="mini-progress" min="0" max="100" value="0">
+    </div>
+    <div class="equalizer" id="equalizer">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+    <button id="playlist-toggle" aria-label="Pilih Lagu">⋮</button>
+    <audio id="audio-player" preload="auto"></audio>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const welcomeBox = document.getElementById('welcome-box');
+    const mainContent = document.getElementById('main-content');
+    let clicked = false;
+
+    function goToMainContent() {
+        if (clicked) return;
+        clicked = true;
+        welcomeBox.style.opacity = '0';
+        welcomeBox.style.transform = 'scale(1.2)';
+        welcomeScreen.style.opacity = '0';
+        setTimeout(() => {
+            welcomeScreen.style.display = 'none';
+            mainContent.classList.add('show');
+            startSlider();
+        }, 1200);
+    }
+
+    welcomeScreen.addEventListener('click', goToMainContent);
+    welcomeScreen.addEventListener('touchstart', goToMainContent);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') goToMainContent();
+    });
+});
+
+let currentIndex = 0;
+let sliderInterval = null;
+const totalSlides = 3;
+const sliderTrack = document.getElementById('slider-track');
+const dots = document.querySelectorAll('.dot');
+
+function updateSlider() {
+    sliderTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+}
+
+function nextSlide() { currentIndex = (currentIndex + 1) % totalSlides; updateSlider(); }
+function prevSlide() { currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; updateSlider(); }
+function startSlider() {
+    if (sliderInterval) clearInterval(sliderInterval);
+    sliderInterval = setInterval(nextSlide, 4000);
+}
+function pauseAndResume() {
+    if (sliderInterval) clearInterval(sliderInterval);
+    sliderInterval = setTimeout(() => startSlider(), 6000);
+}
+
+dots.forEach(dot => {
+    dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = parseInt(dot.dataset.index);
+        updateSlider();
+        pauseAndResume();
+    });
+});
+
+let sliderStartX = 0, sliderIsDragging = false;
+const slider = document.getElementById('slider');
+
+slider.addEventListener('touchstart', (e) => { sliderStartX = e.touches[0].clientX; sliderIsDragging = true; }, { passive: true });
+slider.addEventListener('touchmove', (e) => { if (sliderIsDragging) e.preventDefault(); }, { passive: false });
+slider.addEventListener('touchend', (e) => {
+    if (!sliderIsDragging) return;
+    const endX = e.changedTouches[0].clientX;
+    const diff = sliderStartX - endX;
+    if (diff > 50) { nextSlide(); pauseAndResume(); }
+    else if (diff < -50) { prevSlide(); pauseAndResume(); }
+    sliderIsDragging = false;
+});
+
+let mouseStartX = 0, isMouseDown = false;
+slider.addEventListener('mousedown', (e) => { mouseStartX = e.clientX; isMouseDown = true; slider.style.cursor = 'grabbing'; });
+slider.addEventListener('mousemove', (e) => { if (isMouseDown) e.preventDefault(); });
+slider.addEventListener('mouseup', (e) => {
+    if (!isMouseDown) return;
+    const endX = e.clientX;
+    const diff = mouseStartX - endX;
+    if (diff > 50) { nextSlide(); pauseAndResume(); }
+    else if (diff < -50) { prevSlide(); pauseAndResume(); }
+    isMouseDown = false;
+    slider.style.cursor = 'grab';
+});
+slider.addEventListener('mouseleave', () => { isMouseDown = false; slider.style.cursor = 'grab'; });
+
+const searchInput = document.getElementById('search-input');
+const noResult = document.getElementById('no-result');
+const studentCards = document.querySelectorAll('.student-card');
+
+searchInput.addEventListener('input', (e) => {
+    const keyword = e.target.value.toLowerCase().trim();
+    let visibleCount = 0;
+    studentCards.forEach(card => {
+        const name = (card.dataset.name || '').toLowerCase();
+        if (name.includes(keyword)) { card.classList.remove('hidden'); visibleCount++; }
+        else { card.classList.add('hidden'); }
+    });
+    if (keyword === '') { noResult.classList.remove('show'); return; }
+    if (visibleCount === 0) { noResult.textContent = '😕 Nama tidak ditemukan'; noResult.classList.add('show'); }
+    else { noResult.classList.remove('show'); }
+});
+
+function showStudentModal(photoUrl, name, role, igUrl, igUsername, absen) {
+    const modal = document.getElementById('student-modal');
+    const imgEl = document.getElementById('modal-photo-img');
+    const phEl = document.getElementById('modal-photo-placeholder');
+    document.getElementById('modal-name').textContent = name;
+    document.getElementById('modal-role').textContent = role;
+    document.getElementById('modal-absen').textContent = absen;
+    if (photoUrl && photoUrl !== '') {
+        imgEl.src = photoUrl;
+        imgEl.style.display = 'block';
+        phEl.style.display = 'none';
+    } else {
+        imgEl.src = '';
+        imgEl.style.display = 'none';
+        phEl.style.display = 'block';
+        phEl.textContent = name;
+    }
+    const igLink = document.getElementById('modal-instagram');
+    const igSvg = '<svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>';
+    if (igUrl && igUrl !== '') {
+        igLink.href = igUrl;
+        igLink.innerHTML = igSvg + igUsername;
+        igLink.classList.remove('no-ig');
+        igLink.target = '_blank';
+    } else {
+        igLink.href = '#';
+        igLink.innerHTML = 'Tidak ada Instagram';
+        igLink.classList.add('no-ig');
+        igLink.target = '';
+    }
+    modal.classList.add('show');
+}
+
+function closeStudentModal() {
+    document.getElementById('student-modal').classList.remove('show');
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeStudentModal();
+});
+
+const playlist = [
+    { title: "Where'd All the Time Go?", src: "https://files.catbox.moe/fut16g.mp3" },
+    { title: "teman ku semua pada jahat tante", src: "https://files.catbox.moe/17l8yy.mp3" }
+];
+
+let currentSongIndex = 0;
+const audio = document.getElementById('audio-player');
+const playBtn = document.getElementById('mini-play-btn');
+const prevBtn = document.getElementById('mini-prev-btn');
+const nextBtn = document.getElementById('mini-next-btn');
+const iconPlay = document.getElementById('mini-icon-play');
+const iconPause = document.getElementById('mini-icon-pause');
+const progressBar = document.getElementById('mini-progress');
+const songTitle = document.getElementById('mini-title');
+const playlistToggle = document.getElementById('playlist-toggle');
+const playlistMenu = document.getElementById('playlist-menu');
+const playlistList = document.getElementById('playlist-list');
+const equalizer = document.getElementById('equalizer');
+
+function renderPlaylist() {
+    playlistList.innerHTML = '';
+    playlist.forEach((song, i) => {
+        const item = document.createElement('div');
+        item.className = 'playlist-item' + (i === currentSongIndex ? ' active' : '');
+        item.innerHTML = `<div class="playlist-item-icon">${i === currentSongIndex ? '▶' : '♪'}</div><div class="playlist-item-title">${song.title}</div>`;
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            loadSong(i);
+            audio.play();
+            closePlaylist();
+        });
+        playlistList.appendChild(item);
+    });
+}
+
+function togglePlaylist() { playlistMenu.classList.toggle('show'); renderPlaylist(); }
+function closePlaylist() { playlistMenu.classList.remove('show'); }
+
+playlistToggle.addEventListener('click', (e) => { e.stopPropagation(); togglePlaylist(); });
+document.addEventListener('click', (e) => {
+    if (!playlistMenu.contains(e.target) && e.target !== playlistToggle) closePlaylist();
+});
+
+function loadSong(index) {
+    currentSongIndex = index;
+    audio.src = playlist[index].src;
+    songTitle.textContent = playlist[index].title;
+    progressBar.value = 0;
+    renderPlaylist();
+}
+
+loadSong(0);
+renderPlaylist();
+
+window.addEventListener('load', () => {
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+        playPromise.then(() => { console.log('🎵 Autoplay berhasil'); })
+        .catch(error => {
+            console.log('Autoplay diblokir:', error);
+            iconPlay.style.display = 'block';
+            iconPause.style.display = 'none';
+            equalizer.classList.add('paused');
+            const startOnInteract = () => {
+                audio.play().catch(() => {});
+                document.removeEventListener('click', startOnInteract);
+                document.removeEventListener('touchstart', startOnInteract);
+                document.removeEventListener('keydown', startOnInteract);
+            };
+            document.addEventListener('click', startOnInteract);
+            document.addEventListener('touchstart', startOnInteract);
+            document.addEventListener('keydown', startOnInteract);
+        });
+    }
+});
+
+playBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (audio.paused) audio.play();
+    else audio.pause();
+});
+
+nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const wasPlaying = !audio.paused;
+    currentSongIndex = (currentSongIndex + 1) % playlist.length;
+    loadSong(currentSongIndex);
+    if (wasPlaying) audio.play();
+});
+
+prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const wasPlaying = !audio.paused;
+    currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+    loadSong(currentSongIndex);
+    if (wasPlaying) audio.play();
+});
+
+document.getElementById('mini-player').addEventListener('click', (e) => e.stopPropagation());
+
+audio.addEventListener('play', () => {
+    iconPlay.style.display = 'none';
+    iconPause.style.display = 'block';
+    playBtn.classList.add('playing');
+    equalizer.classList.remove('paused');
+    renderPlaylist();
+});
+
+audio.addEventListener('pause', () => {
+    iconPlay.style.display = 'block';
+    iconPause.style.display = 'none';
+    playBtn.classList.remove('playing');
+    equalizer.classList.add('paused');
+    renderPlaylist();
+});
+
+audio.addEventListener('timeupdate', () => {
+    if (audio.duration) progressBar.value = (audio.currentTime / audio.duration) * 100;
+});
+
+progressBar.addEventListener('input', (e) => {
+    e.stopPropagation();
+    if (audio.duration) audio.currentTime = (progressBar.value / 100) * audio.duration;
+});
+
+audio.addEventListener('ended', () => {
+    currentSongIndex = (currentSongIndex + 1) % playlist.length;
+    loadSong(currentSongIndex);
+    audio.play();
+});
+</script>
+
+</body>
+</html>
